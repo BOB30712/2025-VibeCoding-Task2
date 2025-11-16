@@ -435,20 +435,62 @@
       }
 
       .projects-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
+        display: flex;
         gap: 1rem;
-        margin-top: 0.75rem;
+
+        /* 允許橫向捲動 */
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        padding: 0.5rem 0 1rem;
+
+        /* 阻尼效果（Android / 桌機） */
+        overscroll-behavior-x: contain;
+
+        /* iOS 阻尼效果，超重要 */
+        -webkit-overflow-scrolling: touch;
+
+        /* App 風格滑動吸附 */
+        scroll-snap-type: x mandatory;
+
+        /* 避免 scrollbar 在部分設備拖寬版面 */
+        scrollbar-width: none; /* Firefox  */
+        cursor: grab; /* 讓使用者知道「這個區域可拖曳」 */
+      }
+
+      .projects-grid.dragging {
+        cursor: grabbing; /* 讓使用者知道「這個區域可拖曳」 */
+      }
+
+      .projects-grid::-webkit-scrollbar {
+        display: none; /* Chrome / Safari / iOS */
       }
 
       .project-card {
+        min-width: 280px;             /* 卡片寬度（可自訂：250~360px） */
+        flex-shrink: 0;               /* 避免被壓縮 */
+        scroll-snap-align: center;    /* 滑動後自動對齊中間（很像 App） */
         padding: 1rem;
         border-radius: 0.75rem;
         background-color: rgba(15, 23, 42, 0.95);
         border: 1px dashed rgba(148, 163, 184, 0.6);
         font-size: 0.9rem;
         color: #cbd5f5;
+        flex-shrink: 0;    /* 禁止卡片被縮小 */
+        /* transition: transform 0.25s ease;  //卡片放大效果  */
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
       }
+
+      .projects-grid, 
+      .project-card, 
+      .project-card * {
+        user-select: none;
+      }
+
+      /* .project-card:hover {
+        transform: scale(1.05); //卡片放大效果
+      } */
 
       .project-card-title {
         font-size: 0.95rem;
@@ -751,6 +793,33 @@
                   開發者在更新時，直接用 Section SDD 生成的新 Projects section 程式碼，貼在兩個註解之間即可完成替換。
                 </p>
               </article>
+              <article class="project-card">
+                <h3 class="project-card-title">作品卡片占位 02</h3>
+                <p>
+                  可以預留給另一個代表性專案，例如個人 Side Project 或練習作品，未來可依照實際情況調整為網頁、應用程式或 UI 設計展示。
+                </p>
+                <p class="project-card-note">
+                  開發者在更新時，直接用 Section SDD 生成的新 Projects section 程式碼，貼在兩個註解之間即可完成替換。
+                </p>
+              </article>
+              <article class="project-card">
+                <h3 class="project-card-title">作品卡片占位 03</h3>
+                <p>
+                  可以預留給另一個代表性專案，例如個人 Side Project 或練習作品，未來可依照實際情況調整為網頁、應用程式或 UI 設計展示。
+                </p>
+                <p class="project-card-note">
+                  開發者在更新時，直接用 Section SDD 生成的新 Projects section 程式碼，貼在兩個註解之間即可完成替換。
+                </p>
+              </article>
+              <article class="project-card">
+                <h3 class="project-card-title">作品卡片占位 04</h3>
+                <p>
+                  可以預留給另一個代表性專案，例如個人 Side Project 或練習作品，未來可依照實際情況調整為網頁、應用程式或 UI 設計展示。
+                </p>
+                <p class="project-card-note">
+                  開發者在更新時，直接用 Section SDD 生成的新 Projects section 程式碼，貼在兩個註解之間即可完成替換。
+                </p>
+              </article>
             </div>
           </div>
         </section>
@@ -809,5 +878,39 @@
         </div>
       </footer>
     </div>
+    <script>
+      const slider = document.querySelector(".projects-grid");
+
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      slider.addEventListener("mousedown", (e) => {
+        isDown = true;
+        slider.classList.add("dragging");
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+
+      slider.addEventListener("mouseleave", () => {
+        isDown = false;
+        slider.classList.remove("dragging");
+      });
+
+      slider.addEventListener("mouseup", () => {
+        isDown = false;
+        slider.classList.remove("dragging");
+      });
+
+      slider.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.8; // or 1.5 拖曳感會變得更「鬆」、更像 iPad
+        // const walk = (x - startX) * 1; // 拖曳速度係數
+        slider.scrollLeft = scrollLeft - walk;
+      });
+
+    </script>
   </body>
 </html>
