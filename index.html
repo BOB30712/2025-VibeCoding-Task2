@@ -343,10 +343,66 @@
         border-bottom: 1px solid rgba(30, 64, 175, 0.25);
       }
 
+      .about-header {
+        /* max-width: 640px; */
+        margin: 0 0 1.75rem;
+      }
+
       .about-body {
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+        gap: 1.75rem;
+      }
+
+      .about-text {
+        font-size: 0.95rem;
+        color: #cbd5f5;
+      }
+
+      .about-text p {
+        margin: 0 0 0.85rem;
+      }
+
+      .about-highlights {
+        margin: 1rem 0 0;
+      }
+
+      .about-highlight-item {
+        position: relative;
+        padding-left: 1.25rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: #e5e7eb;
+      }
+
+      .about-highlight-item::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0.05rem;
+        color: #38bdf8;
+      }
+
+      .about-actions {
+        margin-top: 1.25rem;
+      }
+
+      .about-media {
+        margin-top: 0.25rem;
+      }
+
+      .about-media-inner {
+        padding: 0.75rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(circle at top, rgba(37, 99, 235, 0.18), rgba(15, 23, 42, 0.98));
+      }
+
+      .about-media-caption {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: #9ca3af;
+        text-align: center;
       }
       /* CSS:ABOUT-END */
 
@@ -426,12 +482,14 @@
       @media (max-width: 320px) {
         .nav {
           flex-direction: column;
-          flex-wrap: wrap; 
+          flex-wrap: wrap;
         }
+
         .nav-brand {
           white-space: pre-wrap;
         }
       }
+
       @media (min-width: 768px) {
         .nav {
           padding: 0.9rem 1.5rem;
@@ -484,6 +542,10 @@
 
         .about-body > div {
           flex: 1;
+        }
+
+        .about-media {
+          margin-top: 0;
         }
 
         .skills-layout {
@@ -555,7 +617,7 @@
                 </p>
                 <div class="btn-row">
                   <a class="button button-primary" href="#projects">預計放「瀏覽作品集」行動呼籲</a>
-                  <a class="button" href="#contact">預計放「聯絡我 / 下載履歷」行動呼籲</a>
+                  <a class="button" href="#contact">預計放「聯絡我 / 下載履歷」行動呼籱</a>
                 </div>
                 <div class="pill-note">
                   <span class="pill-dot"></span>
@@ -580,31 +642,41 @@
         <!-- SECTION:ABOUT-START -->
         <section id="about" class="section section-about" aria-labelledby="about-heading">
           <div class="container">
-            <h2 id="about-heading" class="section-title">關於我（About 區占位內容）</h2>
+            <div class="about-header">
+              <h2 id="about-heading" class="section-title">關於我</h2>
+              <p class="section-lead">
+                我是一位專注在前端開發與教學的工程師，平常負責開發企業內部系統與側邊專案，也偶爾接一些能實際解決問題的前端需求。
+              </p>
+            </div>
             <div class="about-body">
-              <div>
-                <p class="section-lead">
-                  這裡目前是「關於我」區塊的占位內容，用來說明未來會放上個人背景、學習歷程、工作經驗與目前專注的領域等資訊，協助訪客快速理解你的專業輪廓。
+              <div class="about-text">
+                <p>
+                  目前主要的工作重心在網頁前端開發與前端相關教學，熟悉 HTML、CSS、JavaScript，以及現代前端框架與開發工具鏈，喜歡把複雜的需求拆解成容易維護的元件與流程。
                 </p>
-                <p class="muted-text">
-                  之後可以使用 Section SDD 的 Prompt，產生完整的 About 區版面與正式文字敘述（例如時間軸、重點簡介、價值主張等），再把新的
-                  <strong>&lt;section&gt;</strong> 程式碼整段貼在
-                  <strong>SECTION:ABOUT-START / SECTION:ABOUT-END</strong> 這兩個註解中間，完全取代現在這一區。
+                <p>
+                  過去有與不同角色協作的經驗，包含設計師、後端工程師與業務單位。我很重視溝通與說明過程，習慣把需求、決策與技術選擇講清楚、寫清楚，讓團隊成員都能跟得上同一個節奏。
                 </p>
-              </div>
-              <div>
-                <p class="muted-text">
-                  建議未來在正式版的 About 區，可以包含下列類型的內容：
-                </p>
-                <ul class="inline-list list-unstyled">
-                  <li class="inline-list-item">個人簡短介紹與目前職稱</li>
-                  <li class="inline-list-item">主要技術領域與興趣方向</li>
-                  <li class="inline-list-item">重要工作或專案經驗摘要</li>
-                  <li class="inline-list-item">個人價值觀、合作風格或職涯目標</li>
+                <ul class="about-highlights list-unstyled">
+                  <li class="about-highlight-item">可以協助規劃與實作前端畫面，從 Wireframe 到實際可用的網頁介面。</li>
+                  <li class="about-highlight-item">能用淺顯的方式說明技術概念，適合教學、內訓或協助新人上手專案。</li>
+                  <li class="about-highlight-item">擅長把需求整理成清楚的待辦與文件，減少溝通落差與來回修改成本。</li>
                 </ul>
-                <p class="muted-text">
-                  這些只是規劃建議，實際內容會依之後的 Section SDD Prompt 規格為主，再由新的程式碼完整覆蓋本區。
-                </p>
+                <div class="btn-row about-actions">
+                  <a class="button button-primary" href="#projects">查看作品集</a>
+                  <a class="button" href="#contact">聯絡我</a>
+                </div>
+              </div>
+              <div class="about-media">
+                <div class="about-media-inner">
+                  <img
+                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80"
+                    alt="專注在螢幕前撰寫程式碼的工程師示意照片"
+                    loading="lazy"
+                  >
+                  <p class="about-media-caption">
+                    示意照片：寫程式的工程師。未來可以替換成更符合個人品牌風格或實際工作情境的圖片。
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -688,7 +760,7 @@
         <section id="contact" class="section section-contact" aria-labelledby="contact-heading">
           <div class="container">
             <h2 id="contact-heading" class="section-title">聯絡我（Contact 區占位內容）</h2>
-            <p class="section-lead">
+          <p class="section-lead">
               這裡目前是「聯絡方式」區塊的占位內容，未來會用來放上主要聯絡管道，例如 Email、社群連結、履歷下載或合作表單說明，方便訪客主動與你取得聯繫。
             </p>
             <p class="muted-text">
