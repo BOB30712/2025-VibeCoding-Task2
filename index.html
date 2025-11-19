@@ -436,7 +436,7 @@
 
       .projects-grid {
         display: flex;
-        gap: 1rem;
+        gap: 5rem;
 
         /* 允許橫向捲動 */
         overflow-x: auto;
@@ -467,7 +467,9 @@
       }
 
       .project-card {
-        min-width: 280px;             /* 卡片寬度（可自訂：250~360px） */
+        max-width: 300px;             /* 卡片寬度（可自訂：250~360px） */
+        min-width: 100px;             /* 卡片寬度（可自訂：250~360px） */
+        min-height: 200px;             /* 卡片寬度（可自訂：250~360px） */
         flex-shrink: 0;               /* 避免被壓縮 */
         scroll-snap-align: center;    /* 滑動後自動對齊中間（很像 App） */
         padding: 1rem;
@@ -885,31 +887,97 @@
       let startX;
       let scrollLeft;
 
+      // 慣性相關參數
+      let velocity = 0;
+      let lastX = 0;
+      let lastTime = 0;
+      let momentumID = null;
+
+      // 停止慣性滑動
+      function stopMomentum() {
+        cancelAnimationFrame(momentumID);
+        momentumID = null;
+      }
+
+      // 慣性運動
+      function momentum() {
+        slider.scrollLeft -= velocity;
+
+        velocity *= 0.92; // 阻尼（0.90～0.95 間可調整）
+
+        if (Math.abs(velocity) > 0.5) {
+          momentumID = requestAnimationFrame(momentum);
+        }
+      }
+
       slider.addEventListener("mousedown", (e) => {
         isDown = true;
         slider.classList.add("dragging");
+
+        stopMomentum(); // 拖曳開始，停止原本的慣性
+
+        // 暫時停用 scroll-snap，避免拖曳中抖動
+        slider.style.scrollSnapType = "none";
+
         startX = e.pageX - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
+
+        lastX = startX;
+        lastTime = Date.now();
       });
 
       slider.addEventListener("mouseleave", () => {
+        if (!isDown) return;
         isDown = false;
         slider.classList.remove("dragging");
+
+        // 啟動慣性
+        momentum();
+
+        // 延後恢復 scroll-snap，避免 snap 馬上吸附造成跳動
+        setTimeout(() => {
+          slider.style.scrollSnapType = "x mandatory";
+        }, 300);
       });
 
       slider.addEventListener("mouseup", () => {
+        if (!isDown) return;
         isDown = false;
         slider.classList.remove("dragging");
+
+        // 啟動慣性滑動
+        momentum();
+
+        // 避免 snap 立即吸住，造成頓挫
+        setTimeout(() => {
+          slider.style.scrollSnapType = "x mandatory";
+        }, 300);
       });
 
       slider.addEventListener("mousemove", (e) => {
         if (!isDown) return;
         e.preventDefault();
+
         const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1.8; // or 1.5 拖曳感會變得更「鬆」、更像 iPad
-        // const walk = (x - startX) * 1; // 拖曳速度係數
+        const dx = x - startX;
+
+        // 拖曳「鬆」的感覺：1.5～2.0 之間可調
+        const walk = dx * 1.6;
         slider.scrollLeft = scrollLeft - walk;
+
+        // ---- 計算慣性速度（使用平滑多幀量測）----
+        const now = Date.now();
+        const deltaX = x - lastX;
+        const deltaT = now - lastTime;
+
+        if (deltaT > 0) {
+          velocity = deltaX / deltaT * 20; // 調整倍率可影響速度
+        }
+
+        lastX = x;
+        lastTime = now;
       });
+
 
     </script>
   </body>
