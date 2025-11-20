@@ -58,6 +58,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .nav-brand {
@@ -392,6 +393,33 @@
       RWD：最小調整（保留原排版）
       ========================================================= */
     /* CSS:RWD-START */
+    @media (max-width: 480px) {
+      .nav {
+        flex-direction: column; /* 必須 */
+        align-items: center;
+      }
+
+      .nav-brand {
+        margin-bottom: 0.75rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;      /* 必須 */
+        justify-content: start;
+        gap: 0.5rem 0.75rem;
+        width: 100%;          /* 必須 → 讓它獨立一行 */
+        gap: 0.75rem;
+      }
+
+      .nav-link {
+        display: block;
+        width: 200px;
+        text-align: center;
+      }
+    }
     @media (min-width: 768px) {
       .hero-inner {
         flex-direction: row;
